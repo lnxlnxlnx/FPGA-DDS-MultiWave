@@ -1,0 +1,102 @@
+ref/
+# ==============================================
+# Quartus 自动生成文件（必须忽略）
+# ==============================================
+*.qws
+*.srf
+*.summary
+*.done
+*.dpf
+*.rpt
+*.jdi
+*.cdf
+*.smsg
+*.hif
+*.pin
+*.ptf
+*.qpg
+*.rcf
+*.sof
+*.pof
+*.jic
+*.rbf
+*.rfs
+*.sdo
+*.sld
+*.vhd
+*.vhdl
+*.sv
+*.inc
+*.qip
+*.qipx
+*.qpr
+*.qdf
+*.qws
+*.qcl
+*.qdb
+*.qmsg
+*.qpr_info
+*.qss
+*.qsv
+*.qwf
+*.qws
+*.qxp
+*.qdf
+*.hdb
+*.hif
+*.hst
+*.hst_*
+*.hst_*.*
+*.hst_*.*.*
+*.hst_*.*.*.*
+*.hst_*.*.*.*.*
+
+# Quartus 生成的 DB 文件夹（超级大，必须忽略）
+db/
+incremental_db/
+tmp/
+tmp-cmp/
+output/
+output_files/
+simulation/
+sim/*
+!sim/tb/
+dsp/
+ip/
+greybox_tmp/
+netlist/
+
+# ==============================================
+# ModelSim / Questa 仿真文件
+# ==============================================
+work/
+# *.vcd
+*.vcd.fst
+*.vcd.gz
+*.wlf
+*.do.bak
+*.vst
+*.vstf
+*.vsti
+*.vstp
+*.vstr
+*.vstw
+*.vstz
+*.vst_*
+!*.stp
+
+# ==============================================
+# iverilog 仿真文件
+# ==============================================
+*.vvp
+*.vcd
+
+# ==============================================
+# 系统垃圾文件
+# ==============================================
+*.bak
+*.tmp
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

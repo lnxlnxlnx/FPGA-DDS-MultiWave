@@ -1,0 +1,129 @@
+module dds(
+	clk,//时钟
+	reset_n,//复位
+	Fword,//频率控制字
+	Pword,//相位控制字
+	ce,
+	//p,
+	sine,
+	//cosine,//数据输出
+	square,
+	triangle
+);
+ 
+	input clk;
+	input ce;
+	input reset_n;
+	input [31:0] Fword;
+	input [10:0] Pword;//Rom地址11位：横坐标最大为：2048
+	output [9:0] sine;
+	//output [9:0] cosine;
+	output [9:0] square;
+	output [9:0] triangle;
+	//output [19:0] p;
+	
+	reg [31:0] r_Fword;//频率 寄存器
+	reg [10:0] r_Pword;//相位 寄存器
+	//wire [9:0] DA_Data;
+	wire [9:0] DA_Data1;
+	wire [9:0] DA_Data2;
+	wire [9:0] DA_Data3;
+	
+
+	//reg [9:0] DA_Data_r;
+	reg [9:0] DA_Data1_r;
+	reg [9:0] DA_Data2_r;
+	reg [9:0] DA_Data3_r;
+	
+	reg [31:0] Fcnt;//累加器
+	
+	wire [10:0] rom_addr;
+	assign sine =DA_Data1_r;
+	//assign cosine =DA_Data_r;
+	assign square =DA_Data2_r;
+	assign triangle =DA_Data3_r;
+//	wire [19:0] p;
+	always @(posedge clk)
+		begin
+			r_Fword <= Fword;
+			r_Pword <= Pword;
+		end
+	
+	
+	always @(posedge clk or negedge reset_n)
+		if(!reset_n)
+			Fcnt <= 32'd0;
+		else
+			Fcnt <= Fcnt + r_Fword;//Fcnt：相位累加器
+
+always @(posedge clk or negedge reset_n)
+begin
+if(!reset_n)
+begin 
+//DA_Data_r<= 10'd0;
+DA_Data1_r<= 10'd0;
+DA_Data2_r<= 10'd0;
+DA_Data3_r<= 10'd0;
+end
+else case(ce)
+	1'b1 : begin
+//DA_Data_r <= DA_Data;
+DA_Data1_r <= DA_Data1;
+DA_Data2_r <= DA_Data2;
+DA_Data3_r <= DA_Data3;
+end
+	1'b0 :	begin
+ //DA_Data_r<= 10'd0;
+ DA_Data1_r<= 10'd0;
+ DA_Data2_r<= 10'd0;
+ DA_Data3_r<= 10'd0;
+end 
+default :	begin
+ //DA_Data_r<= 10'd0;
+ DA_Data1_r<= 10'd0;
+ DA_Data2_r<= 10'd0;
+ DA_Data3_r<= 10'd0;
+ end
+ endcase
+ end
+			
+			
+	assign rom_addr = Fcnt[31:21] + r_Pword;	
+
+	
+	//rom rom(
+	//.address(rom_addr),
+	//.clock(clk),
+	//.q(DA_Data)
+//	);
+	
+	rom_sin rom_sin(
+	.address(rom_addr),
+	.clock(clk),
+	.q(DA_Data1)
+	);	
+	
+	rom_squ rom_squ(
+	.address(rom_addr),
+	.clock(clk),
+	.q(DA_Data2)
+	);
+	
+	rom_tri rom_tri(
+	.address(rom_addr),
+	.clock(clk),
+	.q(DA_Data3)
+	);
+	/*
+mult mult(
+		.clk(clk),
+		.rst(reset_n),
+		.x(DA_Data),
+		.y(DA_Data1),
+		.p(p)
+		);
+		
+	*/	
+//assign p = 	DA_Data1*DA_Data;	
+		
+endmodule
